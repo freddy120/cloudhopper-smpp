@@ -22,7 +22,15 @@
         <artifactId>fizzed-maven-parent</artifactId>
         <version>1.15</version>
     </parent>
-    
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>hacom-maven-repo</id>
+            <name>hacom-maven-repo</name>
+            <url>https://hacom-maven-repo.uc.r.appspot.com</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
         <main.java.package>com.cloudhopper.smpp</main.java.package>
         <ch-commons-util.version>6.0.2</ch-commons-util.version>
@@ -78,5 +86,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
 </project>
