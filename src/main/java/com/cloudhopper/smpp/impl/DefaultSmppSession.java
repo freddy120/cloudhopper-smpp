@@ -500,18 +500,18 @@ public class DefaultSmppSession implements SmppServerSession, SmppSessionChannel
         ChannelBuffer buffer = transcoder.encode(pdu);
 
         WindowFuture<Integer,PduRequest,PduResponse> future = null;
-//        try {
-//            future = sendWindow.offer(pdu.getSequenceNumber(), pdu, timeoutMillis, configuration.getRequestExpiryTimeout(), synchronous);
-//        } catch (DuplicateKeyException e) {
-//            throw new UnrecoverablePduException(e.getMessage(), e);
-//        } catch (OfferTimeoutException e) {
-//            throw new SmppTimeoutException(e.getMessage(), e);
-//        }
+        try {
+            future = sendWindow.offer(pdu.getSequenceNumber(), pdu, timeoutMillis, configuration.getRequestExpiryTimeout(), synchronous);
+        } catch (DuplicateKeyException e) {
+            throw new UnrecoverablePduException(e.getMessage(), e);
+        } catch (OfferTimeoutException e) {
+            throw new SmppTimeoutException(e.getMessage(), e);
+        }
         
         if(this.sessionHandler instanceof SmppSessionListener) {
             if(!((SmppSessionListener)this.sessionHandler).firePduDispatch(pdu)) {
                 logger.info("dispatched request PDU discarded: {}", pdu);
-                //future.cancel(); //@todo probably throwing exception here is better solution?
+                future.cancel(); //@todo probably throwing exception here is better solution?
                 return future;
             }
         }
